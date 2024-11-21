@@ -98,6 +98,10 @@ namespace rosgraph_monitor
         logger_(logger),
         graph_change_event_(node_graph->get_graph_event())
   {
+  }
+
+  void RosGraphMonitor::init()
+  {
     update_graph();
     watch_thread_ = std::thread(std::bind(&RosGraphMonitor::watch_for_updates, this));
   }
@@ -127,6 +131,7 @@ namespace rosgraph_monitor
     {
       return true;
     }
+    // RCLCPP_DEBUG(logger_, "Checking node: %s against ignore prefixes: %s", node_name.c_str(), config_.nodes.ignore_prefixes[0].c_str());
     if (match_any_prefixes(config_.nodes.ignore_prefixes, node_name))
     {
       auto [it, inserted] = ignored_nodes_.insert(node_name);
