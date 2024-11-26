@@ -264,6 +264,7 @@ protected:
 
     auto logger = logger_.get_child("graphmon");
     graphmon_.emplace(node_graph_, [this]() {return now_;}, logger);
+    graphmon_->init();
   }
 
   void trigger_and_wait()

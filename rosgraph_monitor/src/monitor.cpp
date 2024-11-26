@@ -105,11 +105,7 @@ RosGraphMonitor::RosGraphMonitor(
   now_fn_(now_fn),
   node_graph_(node_graph),
   logger_(logger),
-  graph_change_event_(node_graph->get_graph_event())
-{
-  update_graph();
-  watch_thread_ = std::thread(std::bind(&RosGraphMonitor::watch_for_updates, this));
-}
+  graph_change_event_(node_graph->get_graph_event()) {}
 
 RosGraphMonitor::~RosGraphMonitor()
 {
@@ -119,6 +115,12 @@ RosGraphMonitor::~RosGraphMonitor()
   node_graph_->notify_shutdown();
   update_event_.set();
   watch_thread_.join();
+}
+
+void RosGraphMonitor::init()
+{
+  update_graph();
+  watch_thread_ = std::thread(std::bind(&RosGraphMonitor::watch_for_updates, this));
 }
 
 void RosGraphMonitor::update_graph()
