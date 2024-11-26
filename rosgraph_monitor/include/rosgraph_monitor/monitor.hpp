@@ -111,6 +111,10 @@ public:
 
   virtual ~RosGraphMonitor();
 
+  /// @brief Initialize the monitor and start watching the rosgraph with
+  /// configuration provided in constructor.
+  void init();
+
   /// @brief Return diagnostics of latest graph understanding
   /// @return A message filled with all current conditions. May be empty array, but never nullptr
   std::unique_ptr<diagnostic_msgs::msg::DiagnosticArray> evaluate();
